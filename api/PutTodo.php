@@ -12,7 +12,7 @@ $data = '';
 while ($temp = fread($putdata, 1024))
     $data .= $temp;
 
-parse_str($data, $attributes);
+$attributes = json_decode($data, true);
 $attributes['id'] = $id;
 
 $todo = $handler->putTodo($attributes);
