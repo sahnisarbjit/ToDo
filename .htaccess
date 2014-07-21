@@ -1,0 +1,29 @@
+RewriteBase /
+RewriteEngine on
+
+# Get multiple todos by offset and limit
+RewriteCond %{REQUEST_METHOD} GET [NC]
+RewriteCond %{REQUEST_URI} ^/todos [OR]
+RewriteCond %{REQUEST_URI} ^/todos/\d+ [OR]
+RewriteCond %{REQUEST_URI} ^/todos/\d+/\d+$
+RewriteRule ^todos(/([\d]+))?(/([^\/]+))?$ /api/GetTodos.php?offset=$2&limit=$4 [L]
+
+# Get single todo by id
+RewriteCond %{REQUEST_METHOD} GET [NC]
+RewriteCond %{REQUEST_URI} ^/todo/\d+$
+RewriteRule ^todo/(.+)?$ /api/GetTodo.php?id=$1 [L]
+
+# Create new todo
+RewriteCond %{REQUEST_METHOD} POST [NC]
+RewriteCond %{REQUEST_URI} ^/todo$
+RewriteRule ^.+$ /api/PostTodo.php [L]
+
+# Update todo
+RewriteCond %{REQUEST_METHOD} PUT [NC]
+RewriteCond %{REQUEST_URI} ^/todo/\d+$
+RewriteRule ^todo/(.+)?$ /api/PutTodo.php?id=$1 [L]
+
+# Delete todo
+RewriteCond %{REQUEST_METHOD} DELETE [NC]
+RewriteCond %{REQUEST_URI} ^/todo/\d+$
+RewriteRule ^todo/(.+)?$ /api/DeleteTodo.php?id=$1 [L]
